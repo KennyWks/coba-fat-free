@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo  (F3::get('ESCAPE')?F3::htmlencode(($_ENCODING=F3::get('ENCODING'))):($_ENCODING=F3::get('ENCODING'))) ; ?>"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo  (F3::get('ESCAPE')?F3::htmlencode(($_BASE=F3::get('BASE'))):($_BASE=F3::get('BASE'))) ; ?>/min?base=<?php echo  (F3::get('ESCAPE')?F3::htmlencode(($_GUI=F3::get('GUI'))):($_GUI=F3::get('GUI'))) ; ?>css/&amp;files=reset.css,demo.css"/>
+	<title><?php echo  (F3::get('ESCAPE')?F3::htmlencode(($_site=F3::get('site'))):($_site=F3::get('site'))) ; ?></title>
+	<base href="<?php echo  $_BASE ; ?>/"/>
+</head>
+<body>
+	<div id="header">
+		<h2><?php echo  $_site ; ?></h2>
+		<div id="menu">
+			<ul>
+				<?php if (is_array((F3::get('ESCAPE')?F3::htmlencode(($_menu=F3::get('menu'))):($_menu=F3::get('menu'))))):foreach (((F3::get('ESCAPE')?F3::htmlencode(($_menu=F3::get('menu'))):($_menu=F3::get('menu')))?:array()) as $_key=>$_option):?>
+					<li>
+						<a href="<?php echo  $_option ; ?>" title="<?php echo  $_key ; ?>"<?php echo  (F3::get('ESCAPE')?F3::htmlencode(($_pagetitle=F3::get('pagetitle'))):($_pagetitle=F3::get('pagetitle')))==$_key?' class="active"':'' ; ?>><?php echo  $_key ; ?></a>
+					</li>
+				<?php endforeach;endif;?></p>
+			</ul>
+		</div>
+	</div>
+	<div id="content">
+		<h3><?php echo  (F3::get('ESCAPE')?F3::htmlencode(F3::get('SESSION.user')):F3::get('SESSION.user'))?ucfirst((F3::get('ESCAPE')?F3::htmlencode(F3::get('SESSION.user')):F3::get('SESSION.user'))):(F3::get('ESCAPE')?F3::htmlencode(($_pagetitle=F3::get('pagetitle'))):($_pagetitle=F3::get('pagetitle'))) ; ?></h3>
+<?php if ((F3::get('ESCAPE')?F3::htmlencode(($_entries=F3::get('entries'))):($_entries=F3::get('entries')))): ?>
+	
+		<?php if (is_array($_entries)):foreach (($_entries?:array()) as $_key=>$_item):?>
+			<h4 class="blogtitle"><?php echo  $_item['title'] ; ?></h4>
+			<a name="<?php echo  strtotime($_item['time']) ; ?>"></a>
+			<div class="blogtime">Posted <?php echo  $_item['time'] ; ?></div>
+			<div class="<?php echo  $_key%2?'even':'odd' ; ?>"><?php echo  nl2br($_item['entry']) ; ?></div>
+			<p class="spacer"/>
+			<?php if ((F3::get('ESCAPE')?F3::htmlencode(F3::get('SESSION.user')):F3::get('SESSION.user'))): ?>
+				<p>
+					<small>
+					<a href="edit/<?php echo  strtotime($_item['time']) ; ?>">Edit</a> |
+					<a href="/delete/<?php echo  strtotime($_item['time']) ; ?>" onclick="return confirm('Are your sure you want to delete this entry?')">Delete</a>
+					</small>
+				</p>
+			<?php endif; ?>
+		<?php endforeach;endif;?>
+		<?php if (!(F3::get('ESCAPE')?F3::htmlencode(F3::get('SESSION.user')):F3::get('SESSION.user'))): ?>
+			<p><a href="rss"><img src="<?php echo  $_GUI ; ?>gfx/rss-icon.png"/></a> <small>Subscribe to this feed</small></p>
+		<?php endif; ?>
+	
+	<?php else: ?><p>There are no blog entries yet.</p>
+<?php endif; ?>
+<?php if ((F3::get('ESCAPE')?F3::htmlencode(F3::get('SESSION.user')):F3::get('SESSION.user'))): ?>
+	<p><small><a href="create">+ Add blog entry</a></small></p>
+<?php endif; ?>
+
+	</div>
+	<div id="footer">
+		<p class="center">This site is powered by <a href="http://fatfree.sourceforge.net">F3</a> - the common sense PHP framework</p>
+	</div>
+</body>
+</html>
